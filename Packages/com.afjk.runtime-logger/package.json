@@ -1,0 +1,20 @@
+{
+    "name": "com.afjk.runtime-logger",
+    "displayName": "Runtime Logger",
+    "version": "1.0.0",
+    "unity": "2019.4",
+    "description": "Logging in Runtime",
+    "keywords": [
+      "debug",
+      "logger",
+      "runtime",
+      "VR",
+      "debugging"
+    ],
+    "category": "Debugging",
+    "author": {
+      "name": "afjk",
+      "email": "afjk01@gmail.com"
+    },
+    "dependencies": {}
+  }
