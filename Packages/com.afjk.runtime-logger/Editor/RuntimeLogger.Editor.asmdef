@@ -1,7 +1,7 @@
 {
     "name": "RuntimeLogger.Editor",
     "rootNamespace": "",
-    "references": ["GUID:de4e822f8c28442228462051787ef536"],
+    "references": [],
     "includePlatforms": [
         "Editor"
     ],
