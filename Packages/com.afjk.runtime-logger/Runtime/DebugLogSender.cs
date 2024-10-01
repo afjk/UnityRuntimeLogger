@@ -94,7 +94,7 @@ namespace afjk.RuntimeLogger
 
                 if (www.result != UnityWebRequest.Result.Success)
                 {
-                    Debug.LogError($"[DebugLogSender] Failed to send log to server: {www.error}");
+//                    Debug.LogError($"[DebugLogSender] Failed to send log to server: {www.error}");
                 }
             }
         }
