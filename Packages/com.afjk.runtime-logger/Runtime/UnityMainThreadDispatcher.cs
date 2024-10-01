@@ -1,12 +1,10 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 
 namespace afjk.RuntimeLogger.Utilities
 {
-    [InitializeOnLoad]
-    public class UnityMainThreadDispatcher : MonoBehaviour
+    public class UnityMainThreadDispatcher
     {
         private static readonly Queue<Action> _executionQueue = new Queue<Action>();
 
