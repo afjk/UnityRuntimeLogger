@@ -9,35 +9,36 @@ using afjk.RuntimeLogger.Utilities;
 using UnityEditor;
 using UnityEngine.Networking;
 
-public class DebugLogServerMenu
+namespace com.afjk.runtimelogger.Editor
 {
-    [MenuItem("DebugLogServer/Start Server")]
-    public static void StartServer()
+    public class RuntimeLogServerMenu
     {
-        DebugLogServer.StartServer();
-    }
+        private static RuntimeLogReceiver receiver = new RuntimeLogReceiver();
+        
+        [MenuItem("DebugLogServer/Start Server")]
+        public static void StartServer()
+        {
+            receiver.StartServer();
+        }
 
-    [MenuItem("DebugLogServer/Stop Server")]
-    public static void StopServer()
-    {
-        DebugLogServer.StopServer();
+        [MenuItem("DebugLogServer/Stop Server")]
+        public static void StopServer()
+        {
+            receiver.StopServer();
+        }
     }
 }
 
+
 namespace afjk.RuntimeLogger.Editor
 {
-    public class DebugLogServer
+    public class RuntimeLogReceiver
     {
-        private static UdpClient udpClient;
-        private static Thread listenerThread;
-        private static int port = 8085;
+        private UdpClient udpClient;
+        private Thread listenerThread;
+        private int port = 8085;
 
-        static DebugLogServer()
-        {
-            StartServer();
-        }
-
-        public static void StartServer()
+        public void StartServer()
         {
             if (udpClient != null)
                 return;
@@ -50,7 +51,7 @@ namespace afjk.RuntimeLogger.Editor
             Debug.Log($"[DebugLogServer] Started on port {port}");
         }
 
-        public static void StopServer()
+        public void StopServer()
         {
             if (udpClient != null)
             {
@@ -65,7 +66,7 @@ namespace afjk.RuntimeLogger.Editor
             }
         }
 
-        private static void HandleIncomingConnections()
+        private void HandleIncomingConnections()
         {
             while (udpClient != null)
             {
