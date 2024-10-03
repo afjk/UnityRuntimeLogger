@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
@@ -6,6 +7,7 @@ using System.Threading;
 using afjk.RuntimeLogger.Editor;
 using afjk.RuntimeLogger.Utilities;
 using UnityEditor;
+using UnityEngine.Networking;
 
 public class DebugLogServerMenu
 {
@@ -72,12 +74,37 @@ namespace afjk.RuntimeLogger.Editor
                     IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, port);
                     byte[] data = udpClient.Receive(ref remoteEP);
                     string logMessage = Encoding.UTF8.GetString(data);
+                    logMessage = UnityWebRequest.UnEscapeURL(logMessage); // URLデコード
+                    
+                    // ログメッセージからLogType, logString, stackTraceを抽出
+                    string[] parts = logMessage.Split(',');
+                    string logString = parts[0].Substring(parts[0].IndexOf(":") + 1).Trim();
+                    string stackTrace = parts[1].Substring(parts[1].IndexOf(":") + 1).Trim();
+                    string logTypeString = parts[2].Substring(parts[2].IndexOf(":") + 1).Trim();
 
-                    // Unityのメインスレッドでログを出力
-                    UnityMainThreadDispatcher.Enqueue(() =>
+                    if (Enum.TryParse(logTypeString, out LogType logType))
                     {
-                        Debug.Log($"[Remote] {logMessage}");
-                    });
+                        // Unityのメインスレッドでログを出力
+                        UnityMainThreadDispatcher.Enqueue(() =>
+                        {
+                            switch (logType)
+                            {
+                                case LogType.Log:
+                                    Debug.Log($"[Remote] {logString}\n{stackTrace}");
+                                    break;
+                                case LogType.Warning:
+                                    Debug.LogWarning($"[Remote] {logString}\n{stackTrace}");
+                                    break;
+                                case LogType.Error:
+                                    Debug.LogError($"[Remote] {logString}\n{stackTrace}");
+                                    break;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Debug.LogError($"[DebugLogServer] Invalid LogType: {logTypeString}");
+                    }
                 }
                 catch (System.Exception ex)
                 {

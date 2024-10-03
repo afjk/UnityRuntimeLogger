@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using UnityEngine.Networking;
 
 namespace afjk.RuntimeLogger
 {
@@ -93,6 +94,7 @@ namespace afjk.RuntimeLogger
         IEnumerator SendLogToServer(string logString, string stackTrace, LogType type)
         {
             string logMessage = $"logString: {logString}, stackTrace: {stackTrace}, logType: {type.ToString()}";
+            logMessage = UnityWebRequest.EscapeURL(logMessage); // URLエンコード
             byte[] data = Encoding.UTF8.GetBytes(logMessage);
 
             udpClient.Send(data, data.Length, serverUrl, serverPort);
