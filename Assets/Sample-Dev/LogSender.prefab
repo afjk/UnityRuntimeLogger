@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21735c1158d1460baa7f08301c1dba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUrl: http://localhost:8085/log
+  serverUrl: localhost
+  serverPort: 8085
