@@ -83,9 +83,6 @@ namespace afjk.RuntimeLogger.Editor
                     stackTrace = UnityWebRequest.UnEscapeURL(stackTrace);
                     logTypeString = UnityWebRequest.UnEscapeURL(logTypeString);
                     
-                    Debug.Log($"[DBG] {logMessage}");
-                    
-
                     if (Enum.TryParse(logTypeString, out LogType logType))
                     {
                         // Unityのメインスレッドでログを出力
@@ -100,7 +97,12 @@ namespace afjk.RuntimeLogger.Editor
                                     Debug.LogWarning($"[Remote] {logString}\n{stackTrace}");
                                     break;
                                 case LogType.Error:
+                                case LogType.Exception:
+                                case LogType.Assert:
                                     Debug.LogError($"[Remote] {logString}\n{stackTrace}");
+                                    break;
+                                default:
+                                    Debug.Log($"[Remote] {logString}\n{stackTrace}\nLogType:{logType}");
                                     break;
                             }
                         });
