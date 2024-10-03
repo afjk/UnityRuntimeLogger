@@ -1,13 +1,11 @@
 using UnityEngine;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.IO;
-using System.Collections.Generic;
+using afjk.RuntimeLogger.Editor;
 using afjk.RuntimeLogger.Utilities;
 using UnityEditor;
-using UnityEngine.Networking;
-using afjk.RuntimeLogger.Editor;
 
 public class DebugLogServerMenu
 {
@@ -28,7 +26,7 @@ namespace afjk.RuntimeLogger.Editor
 {
     public class DebugLogServer
     {
-        private static HttpListener listener;
+        private static UdpClient udpClient;
         private static Thread listenerThread;
         private static int port = 8085;
 
@@ -39,32 +37,23 @@ namespace afjk.RuntimeLogger.Editor
 
         public static void StartServer()
         {
-            if (listener != null && listener.IsListening)
+            if (udpClient != null)
                 return;
 
-            listener = new HttpListener();
-            listener.Prefixes.Add($"http://*:{port}/log/");
-            try
-            {
-                listener.Start();
-                listenerThread = new Thread(HandleIncomingConnections);
-                listenerThread.IsBackground = true;
-                listenerThread.Start();
+            udpClient = new UdpClient(port);
+            listenerThread = new Thread(HandleIncomingConnections);
+            listenerThread.IsBackground = true;
+            listenerThread.Start();
 
-                Debug.Log($"[DebugLogServer] Started on port {port}");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"[DebugLogServer] Failed to start server: {ex.Message}");
-            }
+            Debug.Log($"[DebugLogServer] Started on port {port}");
         }
 
         public static void StopServer()
         {
-            if (listener != null)
+            if (udpClient != null)
             {
-                listener.Close();
-                listener = null;
+                udpClient.Close();
+                udpClient = null;
             }
 
             if (listenerThread != null)
@@ -76,77 +65,25 @@ namespace afjk.RuntimeLogger.Editor
 
         private static void HandleIncomingConnections()
         {
-            while (listener != null && listener.IsListening)
+            while (udpClient != null)
             {
                 try
                 {
-                    var context = listener.GetContext();
-                    ProcessRequest(context);
+                    IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, port);
+                    byte[] data = udpClient.Receive(ref remoteEP);
+                    string logMessage = Encoding.UTF8.GetString(data);
+
+                    // Unityのメインスレッドでログを出力
+                    UnityMainThreadDispatcher.Enqueue(() =>
+                    {
+                        Debug.Log($"[Remote] {logMessage}");
+                    });
                 }
                 catch (System.Exception ex)
                 {
                     Debug.LogError($"[DebugLogServer] Exception: {ex.Message}");
                 }
             }
-        }
-
-        private static void ProcessRequest(HttpListenerContext context)
-        {
-            if (context.Request.HttpMethod == "POST")
-            {
-                using (var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding))
-                {
-                    var body = reader.ReadToEnd();
-
-                    // フォームデータを解析
-                    var formData = ParseFormData(body);
-
-                    if (formData.TryGetValue("logString", out string logString) &&
-                        formData.TryGetValue("stackTrace", out string stackTrace) &&
-                        formData.TryGetValue("logType", out string logType))
-                    {
-                        // Unityのメインスレッドでログを出力
-                        UnityMainThreadDispatcher.Enqueue(() =>
-                        {
-                            if (logType == "Error" || logType == "Exception")
-                            {
-                                Debug.LogError($"[Remote] {logString}\n{stackTrace}");
-                            }
-                            else if (logType == "Warning")
-                            {
-                                Debug.LogWarning($"[Remote] {logString}");
-                            }
-                            else
-                            {
-                                Debug.Log($"[Remote] {logString}");
-                            }
-                        });
-                    }
-
-                    // レスポンスを返す
-                    byte[] buffer = Encoding.UTF8.GetBytes("OK");
-                    context.Response.ContentLength64 = buffer.Length;
-                    context.Response.OutputStream.Write(buffer, 0, buffer.Length);
-                }
-            }
-            context.Response.OutputStream.Close();
-        }
-
-        private static Dictionary<string, string> ParseFormData(string formData)
-        {
-            var dict = new Dictionary<string, string>();
-            string[] pairs = formData.Split('&');
-            foreach (string pair in pairs)
-            {
-                string[] kv = pair.Split('=');
-                if (kv.Length == 2)
-                {
-                    string key = UnityWebRequest.UnEscapeURL(kv[0]);
-                    string value = UnityWebRequest.UnEscapeURL(kv[1]);
-                    dict[key] = value;
-                }
-            }
-            return dict;
         }
     }
 }

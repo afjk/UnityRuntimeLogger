@@ -1,17 +1,26 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Networking;
+using System.Net.Sockets;
+using System.Text;
 
 namespace afjk.RuntimeLogger
 {
     public class DebugLogSender : MonoBehaviour
     {
-        public string serverUrl = "http://localhost:8085/log";
+        public string serverUrl = "localhost";
+        public int serverPort = 8085;
         private bool isLogging = true; // ログ出力の制御フラグ
 
         // ログのバッファリング
         private Queue<(string logString, string stackTrace, LogType type)> logQueue = new Queue<(string, string, LogType)>();
+
+        private UdpClient udpClient;
+
+        void Start()
+        {
+            udpClient = new UdpClient();
+        }
 
         /// <summary>
         /// serverUrlを設定するメソッド
@@ -20,7 +29,7 @@ namespace afjk.RuntimeLogger
         {
             serverUrl = newUrl;
         }
-        
+
         void OnEnable()
         {
             Application.logMessageReceived += HandleLog;
@@ -83,20 +92,12 @@ namespace afjk.RuntimeLogger
         /// </summary>
         IEnumerator SendLogToServer(string logString, string stackTrace, LogType type)
         {
-            WWWForm form = new WWWForm();
-            form.AddField("logString", logString);
-            form.AddField("stackTrace", stackTrace);
-            form.AddField("logType", type.ToString());
+            string logMessage = $"logString: {logString}, stackTrace: {stackTrace}, logType: {type.ToString()}";
+            byte[] data = Encoding.UTF8.GetBytes(logMessage);
 
-            using (UnityWebRequest www = UnityWebRequest.Post(serverUrl, form))
-            {
-                yield return www.SendWebRequest();
+            udpClient.Send(data, data.Length, serverUrl, serverPort);
 
-                if (www.result != UnityWebRequest.Result.Success)
-                {
-//                    Debug.LogError($"[DebugLogSender] Failed to send log to server: {www.error}");
-                }
-            }
+            yield return null;
         }
     }
 }
