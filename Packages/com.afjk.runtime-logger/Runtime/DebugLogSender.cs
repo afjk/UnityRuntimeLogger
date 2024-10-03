@@ -93,8 +93,7 @@ namespace afjk.RuntimeLogger
         /// </summary>
         IEnumerator SendLogToServer(string logString, string stackTrace, LogType type)
         {
-            string logMessage = $"logString: {logString}, stackTrace: {stackTrace}, logType: {type.ToString()}";
-            logMessage = UnityWebRequest.EscapeURL(logMessage); // URLエンコード
+            string logMessage = $"logString: {UnityWebRequest.EscapeURL(logString)}, stackTrace: {UnityWebRequest.EscapeURL(stackTrace)}, logType: {UnityWebRequest.EscapeURL(type.ToString())}";
             byte[] data = Encoding.UTF8.GetBytes(logMessage);
 
             udpClient.Send(data, data.Length, serverUrl, serverPort);

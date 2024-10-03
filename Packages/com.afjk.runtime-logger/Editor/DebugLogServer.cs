@@ -74,13 +74,17 @@ namespace afjk.RuntimeLogger.Editor
                     IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, port);
                     byte[] data = udpClient.Receive(ref remoteEP);
                     string logMessage = Encoding.UTF8.GetString(data);
-                    logMessage = UnityWebRequest.UnEscapeURL(logMessage); // URLデコード
-                    
                     // ログメッセージからLogType, logString, stackTraceを抽出
                     string[] parts = logMessage.Split(',');
                     string logString = parts[0].Substring(parts[0].IndexOf(":") + 1).Trim();
                     string stackTrace = parts[1].Substring(parts[1].IndexOf(":") + 1).Trim();
                     string logTypeString = parts[2].Substring(parts[2].IndexOf(":") + 1).Trim();
+                    logString = UnityWebRequest.UnEscapeURL(logString);
+                    stackTrace = UnityWebRequest.UnEscapeURL(stackTrace);
+                    logTypeString = UnityWebRequest.UnEscapeURL(logTypeString);
+                    
+                    Debug.Log($"[DBG] {logMessage}");
+                    
 
                     if (Enum.TryParse(logTypeString, out LogType logType))
                     {
