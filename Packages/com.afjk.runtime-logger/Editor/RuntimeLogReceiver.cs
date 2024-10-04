@@ -126,13 +126,21 @@ namespace afjk.RuntimeLogger.Editor
         string ConvertStackTrace(string stackTrace)
         {
             var lines = stackTrace.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            string projectPath = Application.dataPath.Replace("/Assets", "");
             for (int i = 0; i < lines.Length; i++)
             {
                 var match = System.Text.RegularExpressions.Regex.Match(lines[i], @"(.+) \(at (.+):(\d+)\)");
                 if (match.Success)
                 {
                     string method = match.Groups[1].Value;
-                    string filePath = match.Groups[2].Value;
+                    string filePath = match.Groups[2].Value.Replace(projectPath, "");
+                    
+                    int assetsIndex = filePath.IndexOf("Assets");
+                    if (assetsIndex >= 0)
+                    {
+                        filePath = filePath.Substring(assetsIndex);
+                    }
+                    
                     string line = match.Groups[3].Value;
                     lines[i] = $"{method} (at <a href=\"{filePath}\" line=\"{line}\">{filePath}:{line}</a>)";
                 }
