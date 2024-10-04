@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 529783310}
   - component: {fileID: 529783309}
-  - component: {fileID: 529783308}
+  - component: {fileID: 529783311}
   m_Layer: 0
   m_Name: Sample LogOutput
   m_TagString: Untagged
@@ -141,24 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &529783308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529783307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2fe5546f775c47d2820aa5e8a715f53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data:
-    _json: '{"nest":{"source":"Embed","macro":null,"embed":{"variables":{"Kind":"Flow","collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[],"controlOutputDefinitions":[],"valueInputDefinitions":[],"valueOutputDefinitions":[],"title":null,"summary":null,"pan":{"x":0.0,"y":0.0},"zoom":1.0,"elements":[{"coroutine":false,"defaultValues":{},"position":{"x":-429.0,"y":-254.0},"guid":"89c38005-175d-428a-801a-fabf99e9f531","$version":"A","$type":"Unity.VisualScripting.Start","$id":"10"},{"chainable":false,"parameterNames":["message"],"member":{"name":"Log","parameterTypes":["System.Object"],"targetType":"UnityEngine.Debug","targetTypeName":"UnityEngine.Debug","$version":"A"},"defaultValues":{},"position":{"x":4.0,"y":-34.0},"guid":"038e3c98-e0a4-45f8-8a2b-28fd5f41f060","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"12"},{"type":"System.String","value":{"$content":"sample
-      log","$type":"System.String"},"defaultValues":{},"position":{"x":-189.0,"y":117.0},"guid":"603d6748-220b-42b5-99a5-27c7312db6c7","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"16"},{"chainable":false,"parameterNames":["message"],"member":{"name":"LogWarning","parameterTypes":["System.Object"],"targetType":"UnityEngine.Debug","targetTypeName":"UnityEngine.Debug","$version":"A"},"defaultValues":{},"position":{"x":206.0,"y":-41.0},"guid":"31b72125-794c-4191-8e5a-961a7d4b3989","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"18"},{"type":"System.String","value":{"$content":"sample
-      warnning","$type":"System.String"},"defaultValues":{},"position":{"x":30.0,"y":116.0},"guid":"a8af1127-0481-4bfd-924a-47aa6eef8d0f","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"22"},{"chainable":false,"parameterNames":["message"],"member":{"name":"LogError","parameterTypes":["System.Object"],"targetType":"UnityEngine.Debug","targetTypeName":"UnityEngine.Debug","$version":"A"},"defaultValues":{},"position":{"x":414.0,"y":-42.0},"guid":"f0267636-7b60-4568-b9bc-22de95a20a55","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"24"},{"type":"System.String","value":{"$content":"sample
-      error","$type":"System.String"},"defaultValues":{},"position":{"x":236.0,"y":88.0},"guid":"59e9b807-eb53-4cfe-a6e4-46c6884e9b60","$version":"A","$type":"Unity.VisualScripting.Literal","$id":"28"},{"defaultValues":{"duration":{"$content":1.0,"$type":"System.Single"},"unscaledTime":{"$content":false,"$type":"System.Boolean"}},"position":{"x":-246.0,"y":-257.0},"guid":"5223e34d-1084-46d4-8862-0a76c3c94eae","$version":"A","$type":"Unity.VisualScripting.Timer","$id":"30"},{"sourceUnit":{"$ref":"12"},"sourceKey":"exit","destinationUnit":{"$ref":"18"},"destinationKey":"enter","guid":"81864de0-95c5-45b6-93e9-45666592262d","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"18"},"sourceKey":"exit","destinationUnit":{"$ref":"24"},"destinationKey":"enter","guid":"cf9bc865-7039-41d2-8cca-90bb91ac9753","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"10"},"sourceKey":"trigger","destinationUnit":{"$ref":"30"},"destinationKey":"start","guid":"27a5ed65-6bf8-4c12-b00c-4b323fabff2e","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"30"},"sourceKey":"completed","destinationUnit":{"$ref":"12"},"destinationKey":"enter","guid":"99cabd24-a3c9-44c8-b9f1-2f4ccb039abd","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"24"},"sourceKey":"exit","destinationUnit":{"$ref":"30"},"destinationKey":"start","guid":"6dc562dd-e070-4f72-b742-5a1a2da6c537","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"16"},"sourceKey":"output","destinationUnit":{"$ref":"12"},"destinationKey":"%message","guid":"6b4e857b-0f47-439b-b422-ddea6932eb10","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"22"},"sourceKey":"output","destinationUnit":{"$ref":"18"},"destinationKey":"%message","guid":"32b921ee-5d05-4663-b39f-48799df25c8f","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"28"},"sourceKey":"output","destinationUnit":{"$ref":"24"},"destinationKey":"%message","guid":"3248fca7-e749-4a22-8b88-589ab1a40b75","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}}'
-    _objectReferences: []
 --- !u!114 &529783309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +171,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &529783311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529783307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3e844cce0ac40f285ef2d000c90fb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &697331301
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,66 +393,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1255608793
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1255608796}
-  - component: {fileID: 1255608795}
-  - component: {fileID: 1255608794}
-  m_Layer: 0
-  m_Name: VisualScripting SceneVariables
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1255608794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1255608793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 765181c9ef4b24d32a4f7cbd2ef370dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1255608795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1255608793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data:
-    _json: '{"declarations":{"Kind":"Scene","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
-    _objectReferences: []
---- !u!4 &1255608796
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1255608793}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3296082201759752177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -535,4 +469,3 @@ SceneRoots:
   - {fileID: 697331304}
   - {fileID: 3296082201759752177}
   - {fileID: 529783310}
-  - {fileID: 1255608796}

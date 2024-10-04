@@ -82,6 +82,7 @@ namespace afjk.RuntimeLogger.Editor
                     string logTypeString = parts[2].Substring(parts[2].IndexOf(":") + 1).Trim();
                     logString = UnityWebRequest.UnEscapeURL(logString);
                     stackTrace = UnityWebRequest.UnEscapeURL(stackTrace);
+                    stackTrace = ConvertStackTrace(stackTrace);
                     logTypeString = UnityWebRequest.UnEscapeURL(logTypeString);
                     
                     if (Enum.TryParse(logTypeString, out LogType logType))
@@ -118,6 +119,23 @@ namespace afjk.RuntimeLogger.Editor
                     Debug.LogError($"[DebugLogServer] Exception: {ex.Message}");
                 }
             }
+        }
+        
+        string ConvertStackTrace(string stackTrace)
+        {
+            var lines = stackTrace.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var match = System.Text.RegularExpressions.Regex.Match(lines[i], @"(.+) \(at (.+):(\d+)\)");
+                if (match.Success)
+                {
+                    string method = match.Groups[1].Value;
+                    string filePath = match.Groups[2].Value;
+                    string line = match.Groups[3].Value;
+                    lines[i] = $"{method} (at <a href=\"{filePath}\" line=\"{line}\">{filePath}:{line}</a>)";
+                }
+            }
+            return string.Join("\n", lines) + "\n-------------------------\n\n\n\n\n";
         }
     }
 }
