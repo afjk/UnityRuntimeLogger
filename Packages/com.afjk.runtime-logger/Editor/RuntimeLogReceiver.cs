@@ -14,39 +14,41 @@ namespace com.afjk.RuntimeLogger.Editor
     {
         private UdpClient udpClient;
         private Thread listenerThread;
-        private int port = 8081;
+        public int port = 8081;
 
-        public void StartServer()
+        
+        private bool shouldStop = false;
+
+        public void StartReceiving()
         {
             if (udpClient != null)
                 return;
 
+            shouldStop = false;
             udpClient = new UdpClient(port);
             listenerThread = new Thread(HandleIncomingConnections);
             listenerThread.IsBackground = true;
             listenerThread.Start();
 
-            Debug.Log($"[DebugLogServer] Started on port {port}");
+            Debug.Log($"Start receiving on port {port}");
         }
 
-        public void StopServer()
+        public void StopReceiving()
         {
             if (udpClient != null)
             {
+                shouldStop = true;
                 udpClient.Close();
                 udpClient = null;
             }
 
-            if (listenerThread != null)
-            {
-                listenerThread.Abort();
-                listenerThread = null;
-            }
+            listenerThread = null;
+            Debug.Log($"Stop receiving");
         }
 
         private void HandleIncomingConnections()
         {
-            while (udpClient != null)
+            while (!shouldStop && udpClient != null)
             {
                 try
                 {
@@ -91,12 +93,19 @@ namespace com.afjk.RuntimeLogger.Editor
                     }
                     else
                     {
-                        Debug.LogError($"[DebugLogServer] Invalid LogType: {logTypeString}");
+                        Debug.LogError($"Invalid LogType: {logTypeString}");
+                    }
+                }
+                catch (SocketException ex)
+                {
+                    if (ex.SocketErrorCode != SocketError.TimedOut)
+                    {
+                        Debug.LogError($"Exception: {ex.Message}");
                     }
                 }
                 catch (System.Exception ex)
                 {
-                    Debug.LogError($"[DebugLogServer] Exception: {ex.Message}");
+                    Debug.LogError($"Exception: {ex.Message}");
                 }
             }
         }
