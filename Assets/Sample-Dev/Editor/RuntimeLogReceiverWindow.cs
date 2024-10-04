@@ -13,6 +13,24 @@ namespace com.afjk.RuntimeLogger.Editor
         {
             GetWindow<RuntimeLogReceiverWindow>("Runtime Log Receiver");
         }
+        
+        
+        private void OnEnable()
+        {
+            EditorApplication.playModeStateChanged += HandlePlayModeStateChange;
+        }
+
+        private void HandlePlayModeStateChange(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.EnteredPlayMode)
+            {
+                if (isReceiving)
+                {
+                    receiver.StopReceiving();
+                    isReceiving = false;
+                }
+            }
+        }
 
         private void OnGUI()
         {
@@ -26,6 +44,7 @@ namespace com.afjk.RuntimeLogger.Editor
             receiver.port = EditorGUILayout.IntField(receiver.port);
             GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
             if (!isReceiving)
             {
                 if (GUILayout.Button("Start Receiving"))
@@ -42,10 +61,19 @@ namespace com.afjk.RuntimeLogger.Editor
                     isReceiving = false;
                 }
             }
-        }
 
+            // Draw a circle with color indicating the receiving state
+            GUI.color = isReceiving ? Color.green : Color.red;
+            GUILayout.Space(10);
+            GUILayout.Label("", GUILayout.Width(20), GUILayout.Height(20));
+            GUI.DrawTexture(GUILayoutUtility.GetLastRect(), Texture2D.whiteTexture);
+            GUI.color = Color.white;
+            GUILayout.EndHorizontal();
+        }
         private void OnDisable()
         {
+            EditorApplication.playModeStateChanged -= HandlePlayModeStateChange;
+            
             if (isReceiving)
             {
                 receiver.StopReceiving();
