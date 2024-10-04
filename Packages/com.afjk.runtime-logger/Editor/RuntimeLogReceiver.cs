@@ -4,39 +4,17 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using afjk.RuntimeLogger.Editor;
 using afjk.RuntimeLogger.Utilities;
-using UnityEditor;
 using UnityEngine.Networking;
 
-namespace com.afjk.runtimelogger.Editor
-{
-    public class RuntimeLogServerMenu
-    {
-        private static RuntimeLogReceiver receiver = new RuntimeLogReceiver();
-        
-        [MenuItem("DebugLogServer/Start Server")]
-        public static void StartServer()
-        {
-            receiver.StartServer();
-        }
 
-        [MenuItem("DebugLogServer/Stop Server")]
-        public static void StopServer()
-        {
-            receiver.StopServer();
-        }
-    }
-}
-
-
-namespace afjk.RuntimeLogger.Editor
+namespace com.afjk.RuntimeLogger.Editor
 {
     public class RuntimeLogReceiver
     {
         private UdpClient udpClient;
         private Thread listenerThread;
-        private int port = 8085;
+        private int port = 8081;
 
         public void StartServer()
         {
