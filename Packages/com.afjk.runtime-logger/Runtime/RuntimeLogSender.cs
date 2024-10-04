@@ -72,17 +72,21 @@ namespace com.afjk.RuntimeLogger
 
         void SendLogs()
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 while (isLogging)
                 {
-                    if (logQueue.Count <= 0) continue;
-                    
-                    var log = logQueue.Dequeue();
-                    string logMessage = $"logString: {UnityWebRequest.EscapeURL(log.logString)}, stackTrace: {UnityWebRequest.EscapeURL(log.stackTrace)}, logType: {UnityWebRequest.EscapeURL(log.type.ToString())}";
-                    byte[] data = Encoding.UTF8.GetBytes(logMessage);
+                    if (logQueue.Count > 0)
+                    {
+                        var log = logQueue.Dequeue();
+                        string logMessage = $"logString: {UnityWebRequest.EscapeURL(log.logString)}, stackTrace: {UnityWebRequest.EscapeURL(log.stackTrace)}, logType: {UnityWebRequest.EscapeURL(log.type.ToString())}";
+                        byte[] data = Encoding.UTF8.GetBytes(logMessage);
 
-                    udpClient.Send(data, data.Length, serverUrl, serverPort);
+                        udpClient.Send(data, data.Length, serverUrl, serverPort);
+                    }
+
+                    // Wait for a short amount of time before the next iteration.
+                    await Task.Delay(100);
                 }
             });
         }
