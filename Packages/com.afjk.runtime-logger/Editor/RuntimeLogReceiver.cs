@@ -83,6 +83,8 @@ namespace afjk.RuntimeLogger.Editor
                     logString = UnityWebRequest.UnEscapeURL(logString);
                     stackTrace = UnityWebRequest.UnEscapeURL(stackTrace);
                     stackTrace = ConvertStackTrace(stackTrace);
+                    string ipAddress = remoteEP.Address.ToString();
+                    stackTrace += $"\n---- from:{ipAddress} ----\n\n\n\n\n";
                     logTypeString = UnityWebRequest.UnEscapeURL(logTypeString);
                     
                     if (Enum.TryParse(logTypeString, out LogType logType))
@@ -135,7 +137,7 @@ namespace afjk.RuntimeLogger.Editor
                     lines[i] = $"{method} (at <a href=\"{filePath}\" line=\"{line}\">{filePath}:{line}</a>)";
                 }
             }
-            return string.Join("\n", lines) + "\n-------------------------\n\n\n\n\n";
+            return string.Join("\n", lines);
         }
     }
 }
