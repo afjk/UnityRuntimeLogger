@@ -14,6 +14,7 @@ namespace com.afjk.RuntimeLogger
             _runtimeLogSender.ServerUrl = serverUrl;
             _runtimeLogSender.ServerPort = serverPort;
             _runtimeLogSender.StartLogging();
+            _runtimeLogSender.SendLogs();
         }
 
         void OnEnable()
@@ -24,11 +25,6 @@ namespace com.afjk.RuntimeLogger
         void OnDisable()
         {
             Application.logMessageReceived -= _runtimeLogSender.HandleLog;
-        }
-
-        void Update()
-        {
-            _runtimeLogSender.SendLogs();
         }
     }
 }
