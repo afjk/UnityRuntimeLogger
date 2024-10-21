@@ -698,7 +698,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1009869143276170253}
   m_HandleRect: {fileID: 7553009646597101105}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -875,10 +875,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd925806a9e54e26b1768f44bf6aa24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logItem: {fileID: 1694476255418520500}
   content: {fileID: 4630995969660065677}
-  scrollRect: {fileID: 6213934221612288503}
+  logItem: {fileID: 1694476255418520500}
   maxLogCount: 100
+  scrollRect: {fileID: 6213934221612288503}
 --- !u!1 &8501212198515262240
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,7 +988,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.000000834465, y: 0.0007324219}
+  m_AnchoredPosition: {x: -0.000019073486, y: 0.0007324219}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1968317017650077872

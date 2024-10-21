@@ -210,10 +210,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd925806a9e54e26b1768f44bf6aa24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logItem: {fileID: 866655301677595885}
   content: {fileID: 456812246690277657}
-  scrollRect: {fileID: 5702453324140882070}
+  logItem: {fileID: 866655301677595885}
   maxLogCount: 100
+  scrollRect: {fileID: 5702453324140882070}
 --- !u!1 &4319024853440570288
 GameObject:
   m_ObjectHideFlags: 0

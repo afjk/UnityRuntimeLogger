@@ -9,15 +9,16 @@ public class LogView
 {
     private Transform parent;
     private LogItem item;
-    public int maxLogCount = 100;
+    public int maxLogCount;
 
     private Queue<LogItem> itemUiList = new ();
     private Queue<string> itemList = new ();
     
-    public LogView(Transform parent, LogItem item)
+    public LogView(Transform parent, LogItem item, int maxLogCount)
     {
         this.parent = parent;
         this.item = item;
+        this.maxLogCount = maxLogCount;
     }
     
     public void Add(string log, LogType type)
@@ -36,7 +37,8 @@ public class LogView
         if (itemList.Count > maxLogCount)
         {
             itemList.Dequeue();
-            itemUiList.Dequeue();
+            var item = itemUiList.Dequeue();
+            GameObject.Destroy(item.gameObject); 
         }
     }
 
@@ -49,22 +51,25 @@ public class LogView
 
 public class RuntimeLoggerUI : MonoBehaviour
 {
+    [SerializeField] 
+    private Transform content;
     [SerializeField]
     private LogItem logItem;
+    [SerializeField]
+    public int maxLogCount = 100;
 
-    [SerializeField] private Transform content;
 
     [SerializeField] private ScrollRect scrollRect;
-    RuntimeLogSender.LogFilter filter = (logString, stackTrace, type) => logString.StartsWith("[Remote]");
+    public delegate bool LogFilter(string logString, string stackTrace, LogType type);
+    LogFilter filter = (logString, stackTrace, type) => logString.StartsWith("[Remote]");
 
     private bool isLogging;
-    public int maxLogCount = 100;
     private LogView logView;
     private bool showNewest = true;
     
     void OnEnable()
     {
-        logView = new LogView(content, logItem);
+        logView = new LogView(content, logItem, maxLogCount);
         if (scrollRect == null)
         {
             scrollRect = GetComponent<ScrollRect>();
