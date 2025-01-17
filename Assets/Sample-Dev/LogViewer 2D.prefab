@@ -853,7 +853,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7479808668372514546}
         m_TargetAssemblyTypeName: RuntimeLoggerUI, Assembly-CSharp
-        m_MethodName: OnVarueChaned
+        m_MethodName: OnValueChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

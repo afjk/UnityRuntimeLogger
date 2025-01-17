@@ -107,12 +107,17 @@ public class RuntimeLoggerUI : MonoBehaviour
     
     private void ScrollToBottom()
     {
-        Canvas.ForceUpdateCanvases();
-        scrollRect.verticalNormalizedPosition = 0f;
-        Canvas.ForceUpdateCanvases();
+        StartCoroutine(ScrollToBottomCoroutine());
     }
 
-    public void OnVarueChaned(Vector2 val)
+    private IEnumerator ScrollToBottomCoroutine()
+    {
+        yield return null; // 次のフレームまで待機
+        Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 0f;
+    }
+
+    public void OnValueChanged(Vector2 val)
     {
         if (val.y > 0)
         {
