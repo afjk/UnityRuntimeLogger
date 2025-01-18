@@ -11,9 +11,10 @@ public class LogView
     private LogItem item;
     public int maxLogCount;
 
-    private Queue<LogItem> itemUiList = new ();
     private Queue<string> itemList = new ();
-    
+    private Queue<LogItem> itemUiList = new ();
+    private Stack<LogItem> objectPool = new();
+
     public LogView(Transform parent, LogItem item, int maxLogCount)
     {
         this.parent = parent;
@@ -24,7 +25,7 @@ public class LogView
     public void Add(string log, LogType type)
     {
         itemList.Enqueue(log);
-        var uiItem = GameObject.Instantiate(item);
+        var uiItem = GetOrCreateLogItem();
         uiItem.transform.parent = parent;
         uiItem.transform.localPosition = Vector3.zero;
         uiItem.transform.localRotation = Quaternion.identity;
@@ -38,14 +39,51 @@ public class LogView
         {
             itemList.Dequeue();
             var item = itemUiList.Dequeue();
-            GameObject.Destroy(item.gameObject); 
+            ReturnToPool(item);
         }
     }
 
-    public void clear()
+    private LogItem GetOrCreateLogItem()
     {
+        LogItem logItem;
+        if (objectPool.Count > 0)
+        {
+            logItem = objectPool.Pop();
+        }
+        else
+        {
+            logItem =  GameObject.Instantiate(item);
+        }
+
+        return logItem;
+    }
+
+    private void ReturnToPool(LogItem logItem)
+    {
+        logItem.gameObject.SetActive(false);
+        logItem.transform.parent = null;
+        objectPool.Push(logItem);
+    }
+
+    public void Clear()
+    {
+        // プール内のオブジェクトを破棄
+        while (objectPool.Count > 0)
+        {
+            var item = objectPool.Pop();
+            GameObject.Destroy(item.gameObject);
+        }
+
+        // 表示中のオブジェクトを破棄
+        while (itemUiList.Count > 0)
+        {
+            var item = itemUiList.Dequeue();
+            GameObject.Destroy(item.gameObject);
+        }
+        
         itemList.Clear();
         itemUiList.Clear();
+        objectPool.Clear();
     }
 }
 
@@ -81,7 +119,7 @@ public class RuntimeLoggerUI : MonoBehaviour
     {
         Application.logMessageReceived -= HandleLog;
         
-        logView.clear();
+        logView.Clear();
     }
 
     public void HandleLog(string logString, string stackTrace, LogType type)
