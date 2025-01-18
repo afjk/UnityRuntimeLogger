@@ -14,7 +14,7 @@ namespace com.afjk.RuntimeLogger.Editor
     {
         private UdpClient udpClient;
         private Thread listenerThread;
-        public int port = 8081;
+        public int port = 49784;
 
         
         private bool shouldStop = false;

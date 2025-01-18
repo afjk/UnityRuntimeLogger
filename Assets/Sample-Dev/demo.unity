@@ -755,10 +755,40 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2631624520997014572, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631624520997014572, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631624520997014572, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2631624520997014572, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3358105623887854972, guid: d9a130e47d33b41a2a48b34f17f4294b,
         type: 3}
       propertyPath: m_Name
       value: LogViewer 3D
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439627269811692598, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439627269811692598, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4978927390369638920, guid: d9a130e47d33b41a2a48b34f17f4294b,
         type: 3}
@@ -810,6 +840,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8118563590768250515, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8118563590768250515, guid: d9a130e47d33b41a2a48b34f17f4294b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -824,5 +864,5 @@ SceneRoots:
   - {fileID: 529783310}
   - {fileID: 668782767}
   - {fileID: 1941742492750497785}
-  - {fileID: 3296082201759752177}
   - {fileID: 3550325973087372117}
+  - {fileID: 3296082201759752177}

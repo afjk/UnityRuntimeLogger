@@ -7,7 +7,7 @@ namespace com.afjk.RuntimeLogger
     {
         private RuntimeLogSender _runtimeLogSender = new RuntimeLogSender();
         public string serverUrl = "localhost";
-        public int serverPort = 8081;
+        public int serverPort = 49784;
         
         void Start()
         {

@@ -10,7 +10,7 @@ namespace com.afjk.RuntimeLogger
     public class RuntimeLogSender
     {
         public string ServerUrl { get; set; } = "localhost";
-        public int ServerPort { get; set; } = 8081;
+        public int ServerPort { get; set; } = 49784;
         private bool isLogging = true; // ログ出力の制御フラグ
 
         // フィルタリングの条件を表すデリゲート
