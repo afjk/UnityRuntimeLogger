@@ -1,7 +1,7 @@
 {
   "name": "com.afjk.runtime-logger",
   "displayName": "Runtime Logger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "2019.4",
   "description": "Logging in Runtime",
   "keywords": [
