@@ -16,7 +16,10 @@ namespace com.afjk.RuntimeLogger
         // フィルタリングの条件を表すデリゲート
         public delegate bool LogFilter(string logString, string stackTrace, LogType type);
 
-        LogFilter filter = (logString, stackTrace, type) => logString.StartsWith("[Remote]");
+        private LogFilter userFilter;
+
+        // デフォルトのフィルター。com.afjk.runtime-loggerパッケージ内でのログは送信しない。
+        private LogFilter defaultFilter = (logString, stackTrace, type) => !stackTrace.Contains("com.afjk.runtime-logger");
 
         // ログのバッファリング
         private Queue<(string logString, string stackTrace, LogType type)> logQueue =
@@ -29,6 +32,16 @@ namespace com.afjk.RuntimeLogger
             udpClient = new UdpClient();
         }
 
+        public void SetUserFilter(LogFilter filter)
+        {
+            userFilter = filter;
+        }
+
+        private bool CombinedFilter(string logString, string stackTrace, LogType type)
+        {
+            return defaultFilter(logString, stackTrace, type) && (userFilter == null || userFilter(logString, stackTrace, type));
+        }
+
         public void StartLogging()
         {
             isLogging = true;
@@ -39,15 +52,9 @@ namespace com.afjk.RuntimeLogger
             isLogging = false;
         }
 
-        // フィルタリングの条件を登録するメソッド
-        public void RegisterFilter(LogFilter newFilter)
-        {
-            filter = newFilter;
-        }
-
         public void HandleLog(string logString, string stackTrace, LogType type)
         {
-            if (isLogging && (filter == null || !filter(logString, stackTrace, type)))
+            if (isLogging && CombinedFilter(logString, stackTrace, type))
             {
                 // ログをキューに保存
                 logQueue.Enqueue((logString, stackTrace, type));

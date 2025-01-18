@@ -99,8 +99,12 @@ public class RuntimeLoggerUI : MonoBehaviour
 
     [SerializeField] private ScrollRect scrollRect;
     public delegate bool LogFilter(string logString, string stackTrace, LogType type);
-    LogFilter filter = (logString, stackTrace, type) => logString.StartsWith("[Remote]");
-
+    LogFilter defaultFilter = (logString, stackTrace, type) => !logString.StartsWith("[Remote]");
+    private bool CombinedFilter(string logString, string stackTrace, LogType type)
+    {
+        return defaultFilter(logString, stackTrace, type) && (userFilter == null || userFilter(logString, stackTrace, type));
+    }
+    
     private bool isLogging;
     private LogView logView;
     private bool showNewest = true;
@@ -125,7 +129,7 @@ public class RuntimeLoggerUI : MonoBehaviour
     public void HandleLog(string logString, string stackTrace, LogType type)
     {
 
-        if (isLogging && (filter == null || !filter(logString, stackTrace, type)))
+        if (isLogging && CombinedFilter(logString, stackTrace, type))
         {
             // ログをリストに追加
             logView.Add(logString, type);
@@ -165,5 +169,16 @@ public class RuntimeLoggerUI : MonoBehaviour
         {
             showNewest = true;
         }
+    }
+
+    private LogFilter userFilter = null;
+    public void SetUserFilter(LogFilter filter)
+    {
+        userFilter = filter;
+    }
+
+    public void Clear()
+    {
+        logView.Clear();
     }
 }
