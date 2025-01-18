@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace com.afjk.RuntimeLogger
+namespace com.afjk.RuntimeLogger.Sample
 {
     
     public class RuntimeLoggerSample : MonoBehaviour

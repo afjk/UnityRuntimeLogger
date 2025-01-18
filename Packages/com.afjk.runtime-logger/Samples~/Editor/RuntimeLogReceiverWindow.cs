@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace com.afjk.RuntimeLogger.Editor
+namespace com.afjk.RuntimeLogger.Editor.Sample
 {
     public class RuntimeLogReceiverWindow : EditorWindow
     {

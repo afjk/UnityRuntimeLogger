@@ -1,23 +1,26 @@
 using System.Collections;
 using UnityEngine;
 
-public class Demo : MonoBehaviour
+namespace com.afjk.RuntimeLogger.Sample
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Demo : MonoBehaviour
     {
-        StartCoroutine(LogMessages());
-    }
-
-    IEnumerator LogMessages()
-    {
-        while (true)
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.Log("Sample Log");
-            Debug.LogWarning("Sample Warning");
-            Debug.LogError("Sample Error");
+            StartCoroutine(LogMessages());
+        }
 
-            yield return new WaitForSeconds(1f);
+        IEnumerator LogMessages()
+        {
+            while (true)
+            {
+                Debug.Log("Sample Log");
+                Debug.LogWarning("Sample Warning");
+                Debug.LogError("Sample Error");
+
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 }
